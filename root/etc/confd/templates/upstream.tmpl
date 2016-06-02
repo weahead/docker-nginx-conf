@@ -1,0 +1,7 @@
+{{if exists "/self/service/metadata/map/string"}}
+  map {{getv "/self/service/metadata/map/string"}} $pool {
+    {{range getvs "/self/service/metadata/map/mappings/*"}}
+      {{.}};
+    {{end}}
+  }
+{{end}}

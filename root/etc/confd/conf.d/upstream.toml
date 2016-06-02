@@ -1,0 +1,6 @@
+[template]
+src = "upstream.tmpl"
+dest = "/usr/local/etc/nginx/conf.d/upstream.conf"
+keys = [
+  "/self/service/metadata"
+]

@@ -1,0 +1,6 @@
+[template]
+src = "ssl.tmpl"
+dest = "/usr/local/etc/nginx/conf.d/ssl.conf"
+keys = [
+  "/self/service/metadata"
+]
