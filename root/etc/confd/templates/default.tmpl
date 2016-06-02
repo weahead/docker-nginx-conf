@@ -7,34 +7,54 @@ server {
 server {
   listen 8080;
 
+  {{if exists "/self/service/metadata/root"}}
+    root {{getv "/self/service/metadata/root"}};
+  {{end}}
+
+  {{if exists "/self/service/metadata/index"}}
+    index  {{getv "/self/service/metadata/index"}};
+  {{end}}
+
   {{if exists "/self/service/metadata/resolver"}}
     resolver {{getv "/self/service/metadata/resolver"}};
   {{end}}
 
-  # Location
-  location / {
+  {{if exists "/self/service/metadata/fcgi_pass"}}
+    location / {
+      try_files $uri $uri/ /index.php?q=$uri&$args;
+    }
 
-    {{if exists "/self/service/metadata/pool"}}
-      proxy_pass http://{{getv "/self/service/metadata/pool"}};
-    {{else}}
-      proxy_pass http://$pool;
-    {{end}}
+    location ~ \.php$ {
+      include fastcgi_params;
+      fastcgi_pass {{getv "/self/service/metadata/fcgi_pass"}};
+      fastcgi_index index.php;
+      fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+  {{else}}
+    location / {
 
-    proxy_http_version 1.1;
-    proxy_set_header Host $host;
-    proxy_set_header X-Scheme $scheme;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Host $host;
-    proxy_set_header X-Forwarded-Proto $scheme;
-    proxy_set_header X-Forwarded-Port $server_port;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection "upgrade";
-    proxy_buffering on;
-    # This allows the ability for the execute shell window to remain open for up to 15 minutes.
-    # Without this parameter, the default is 1 minute and will automatically close.
-    proxy_read_timeout 900s;
-    auth_basic off;
-  }
+      {{if exists "/self/service/metadata/pool"}}
+        proxy_pass http://{{getv "/self/service/metadata/pool"}};
+      {{else}}
+        proxy_pass http://$pool;
+      {{end}}
+
+      proxy_http_version 1.1;
+      proxy_set_header Host $host;
+      proxy_set_header X-Scheme $scheme;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Host $host;
+      proxy_set_header X-Forwarded-Proto $scheme;
+      proxy_set_header X-Forwarded-Port $server_port;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection "upgrade";
+      proxy_buffering on;
+      # This allows the ability for the execute shell window to remain open for up to 15 minutes.
+      # Without this parameter, the default is 1 minute and will automatically close.
+      proxy_read_timeout 900s;
+      auth_basic off;
+    }
+  {{end}}
 }
 {{end}}
