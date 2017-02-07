@@ -1,0 +1,3 @@
+{{if exists "/self/service/metadata/auth/user"}}
+{{getv "/self/service/metadata/auth/user"}}:{PLAIN}{{getv "/self/service/metadata/auth/password"}}
+{{end}}

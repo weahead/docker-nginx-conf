@@ -68,7 +68,12 @@ server {
       # This allows the ability for the execute shell window to remain open for up to 15 minutes.
       # Without this parameter, the default is 1 minute and will automatically close.
       proxy_read_timeout 900s;
-      auth_basic off;
+      {{if exists "/self/service/metadata/auth/user"}}
+        auth_basic "Restricted";
+         auth_basic_user_file /usr/local/etc/nginx/conf.d/htpasswd;
+      {{else}}
+        auth_basic off;
+      {{end}}
     }
   {{end}}
 }
