@@ -1,0 +1,6 @@
+[template]
+src = "transfers.tmpl"
+dest = "/usr/local/etc/nginx/conf.d/transfers.conf"
+keys = [
+  "/self/service/metadata"
+]
