@@ -1,0 +1,6 @@
+[template]
+src = "basicauth.tmpl"
+dest = "/usr/local/etc/nginx/conf.d/htpasswd"
+keys = [
+  "/self/service/metadata"
+]

@@ -44,6 +44,7 @@ server {
       fastcgi_pass {{getv "/self/service/metadata/fcgi_pass"}};
       fastcgi_index index.php;
       fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+      fastcgi_split_path_info ^(.+\.php)(/.+)$;
     }
   {{else}}
     location / {
@@ -68,7 +69,12 @@ server {
       # This allows the ability for the execute shell window to remain open for up to 15 minutes.
       # Without this parameter, the default is 1 minute and will automatically close.
       proxy_read_timeout 900s;
-      auth_basic off;
+      {{if exists "/self/service/metadata/auth/user"}}
+        auth_basic "Restricted";
+         auth_basic_user_file /usr/local/etc/nginx/conf.d/htpasswd;
+      {{else}}
+        auth_basic off;
+      {{end}}
     }
   {{end}}
 }
