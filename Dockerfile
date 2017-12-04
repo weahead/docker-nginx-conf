@@ -1,4 +1,4 @@
-FROM weahead/conf:3.0.2
+FROM weahead/conf:3.0.3
 
 MAINTAINER We ahead <docker@weahead.se>
 

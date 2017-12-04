@@ -1,6 +1,6 @@
 # nginx configuration container
 
-[![latest 2.0.4](https://img.shields.io/badge/latest-2.0.4-green.svg)](https://github.com/weahead/docker-nginx-conf/releases/tag/v2.0.4)
+[![latest 2.0.5](https://img.shields.io/badge/latest-2.0.5-green.svg)](https://github.com/weahead/docker-nginx-conf/releases/tag/v2.0.5)
 
 Docker image that puts configuration for nginx on a volume at
 `/usr/local/etc/nginx` via [confd](https://github.com/kelseyhightower/confd).
