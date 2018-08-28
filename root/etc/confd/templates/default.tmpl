@@ -26,6 +26,12 @@ server {
     root {{getv "/self/service/metadata/root"}};
   {{end}}
 
+  {{if exists "/self/service/metadata/client_max_body_size"}}
+    client_max_body_size {{getv "/self/service/metadata/client_max_body_size"}};
+  {{else}}
+    client_max_body_size 0
+  {{end}}
+
   {{if exists "/self/service/metadata/index"}}
     index  {{getv "/self/service/metadata/index"}};
   {{end}}
